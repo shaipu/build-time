@@ -14,7 +14,7 @@ phases:
     commands:
       # Your build commands here
       - echo "Building..."
-      - sleep 30
+      - sleep 45
 
   post_build:
     commands:
