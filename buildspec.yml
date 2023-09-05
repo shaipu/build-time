@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+
+  pre_build:
+    commands:
+      # Start a timestamp before the build starts
+      - export START_TIME=$(date +%s)
+
+  build:
+    commands:
+      # Your build commands here
+      - echo "Building..."
+
+  post_build:
+    commands:
+      # Calculate the total build time
+      - export END_TIME=$(date +%s)
+      - export TOTAL_BUILD_TIME=$((END_TIME - START_TIME))
+
+      # Publish the build time metric to CloudWatch
+      - aws cloudwatch put-metric-data --metric-name TotalBuildTime --namespace CustomMetrics --value $TOTAL_BUILD_TIME --unit Seconds
+
+artifacts:
+  files: '**/*'
+
+cache:
+  paths: []
+
